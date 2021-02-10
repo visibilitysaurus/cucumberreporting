@@ -2,7 +2,7 @@
 
 name: CI
 
-# Controls when the action will run. 
+# Controls when the action will run.
 on:
   # Triggers the workflow on push or pull request events but only for the main branch
   push:
@@ -15,8 +15,30 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
-  build:
+  test:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        test-file:
+          - data/cucumber-report_DUE-1170_testokPb_74.json
+          - data/cucumber-report_DUE-1520_testiMGL_52.json
+          - data/cucumber-report_DUE-1748_testFIqe_33.json
+          - data/cucumber-report_DUE-1750_1751_testOhMx_43.json
+          - data/cucumber-report_DUE-2522_testUiKW_65.json
+          - data/cucumber-report_DUE-2843_testrBPu_37.json
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+      - name: Move reports
+        run: mv ${{ matrix['test-file'] }} reports/
+      - uses: actions/upload-artifact@v2
+        with:
+          name: jsonfiles
+          path: reports/
+  generate:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
@@ -29,6 +51,11 @@ jobs:
          java-version: '1.8' # The JDK version to make available on the path.
          java-package: jdk # (jre, jdk, or jdk+fx) - defaults to jdk
          architecture: x64 # (x64 or x86) - defaults to x64
+         needs: test
+      - uses: actions/download-artifact@v2
+        with:
+          name: jsonfiles
+          path: reports/
       - run: mvn clean verify
       - uses: actions/upload-artifact@v2
         with:
