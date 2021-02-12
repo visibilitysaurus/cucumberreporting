@@ -33,7 +33,7 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
       - name: Check contents
-        run: ls -1 data
+        run: Get-ChildItem data
       - name: Move reports
         run: mv ${{ matrix['test-file'] }} reports/
       - uses: actions/upload-artifact@v2
