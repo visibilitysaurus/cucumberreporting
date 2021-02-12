@@ -43,7 +43,7 @@ jobs:
           retention-days: 1
   generate:
     # The type of runner that the job will run on
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     needs: test
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -61,7 +61,7 @@ jobs:
       - name: Generate Reports with Maven
         run: mvn clean verify
       - name: Compress report directory
-        run: zip -r target/cucumber-reports.zip target/cucumber-html-reports
+        run: Compress-Archive -Path 'target/cucumber-reports' -DestinationPath 'target/cucumber-html-reports.zip'
       - uses: actions/upload-artifact@v2
         with:
           name: report
