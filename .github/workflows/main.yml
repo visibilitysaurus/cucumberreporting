@@ -60,6 +60,10 @@ jobs:
           path: reports/
       - name: Generate Reports with Maven
         run: mvn clean verify
+      - name: Current working directory
+        run: Get-Location
+      - name: Check contents
+        run: Get-ChildItem
       - name: Compress report directory
         run: powershell Compress-Archive target/cucumber-reports target/cucumber-html-reports.zip
       - uses: actions/upload-artifact@v2
