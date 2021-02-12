@@ -65,7 +65,7 @@ jobs:
       - name: Check contents
         run: Get-ChildItem
       - name: Compress report directory
-        run: powershell Compress-Archive -path D:\a\cucumberreporting\cucumberreporting\target\cucumber-reports -destinationpath D:\a\cucumberreporting\cucumberreporting\target\cucumber-html-reports.zip
+        run: Compress-Archive -path D:\a\cucumberreporting\cucumberreporting\target\cucumber-reports -destinationpath D:\a\cucumberreporting\cucumberreporting\target\cucumber-html-reports.zip
       - uses: actions/upload-artifact@v2
         with:
           name: report
